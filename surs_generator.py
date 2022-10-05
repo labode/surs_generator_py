@@ -43,10 +43,7 @@ def list_dir(path, file_extension=None):
 # Generate list of files to copy
 def draw_sample(files, start, step):
     size = len(files)
-    if size < start:
-        sys.exit('ERROR! Random number is larger than number of files! '
-                 'Choose a smaller step size and check that you are working on the correct directory.')
-    if size < step:
+    if size < start or size < step:
         sys.exit('ERROR! Step size is larger than number of files! '
                  'Choose a smaller step size and check that you are working on the correct directory.')
 
