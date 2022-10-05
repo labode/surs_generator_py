@@ -3,11 +3,25 @@ import argparse
 import os
 import shutil
 import sys
+if os.name == 'nt':
+    import win32api, win32con
 
 
 def check_positive(number):
     if number <= 0:
         sys.exit('ERROR! The supplied number is 0 or negative. Only numbers greater than 0 are allowed.')
+
+
+def is_hidden(file):
+    if os.name == 'nt':
+        if win32api.GetFileAttributes(file) == win32con.FILE_ATTRIBUTE_HIDDEN \
+                or win32api.GetFileAttributes(file) == win32con.FILE_ATTRIBUTE_SYSTEM:
+            return True
+    else:
+        if file.startswith('.'):
+            return True
+
+    return False
 
 
 # Generate random number between 0 and step size
@@ -32,11 +46,13 @@ def list_dir(path, file_extension=None):
     if file_extension is not None:
         for file in files:
             if file.endswith(file_extension):
-                data.append(path + '/' + file)
+                if not is_hidden(path + '/' + file):
+                    data.append(path + '/' + file)
         return data
     else:
         for file in files:
-            data.append(path + '/' + file)
+            if not is_hidden(path + '/' + file):
+                data.append(path + '/' + file)
         return data
 
 
