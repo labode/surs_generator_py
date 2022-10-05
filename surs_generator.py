@@ -91,7 +91,8 @@ if __name__ == '__main__':
     parser.add_argument('step', action='store', type=int, help='Step size')
     parser.add_argument('directory', action='store', type=str, help='Directory containing the image stack')
     parser.add_argument('-o', '--output', action='store', type=str, required=False,
-                        help='Directory to write the sample to')
+                        help='Directory to write the sample to. '
+                             'If not supplied, a folder with the name sample is created in the current directory')
     parser.add_argument('-f', '--filetype', action='store', type=str, required=False,
                         help='Type of the files to draw a sample from '
                              '(e.g. if non images are present in the directory)')
