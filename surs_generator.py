@@ -14,8 +14,7 @@ def check_positive(number):
 
 def is_hidden(file):
     if os.name == 'nt':
-        if win32api.GetFileAttributes(file) == win32con.FILE_ATTRIBUTE_HIDDEN \
-                or win32api.GetFileAttributes(file) == win32con.FILE_ATTRIBUTE_SYSTEM:
+        if win32api.GetFileAttributes(file) & (win32con.FILE_ATTRIBUTE_HIDDEN | win32con.FILE_ATTRIBUTE_SYSTEM):
             return True
     else:
         if file.startswith('.'):
