@@ -17,7 +17,7 @@ def is_hidden(file):
         if win32api.GetFileAttributes(file) & (win32con.FILE_ATTRIBUTE_HIDDEN | win32con.FILE_ATTRIBUTE_SYSTEM):
             return True
     else:
-        if file.startswith('.'):
+        if os.path.basename(file).startswith('.'):
             return True
 
     return False
@@ -25,6 +25,7 @@ def is_hidden(file):
 
 # Generate random number between 0 and step size
 def random_start(limit):
+    # TODO: We could add a seed into SystemRandom(*seed*) to make runs reproducible
     start = random.SystemRandom().randint(0, limit - 1)  # Limit -1 as we start at 0
     print('Randomly starting at file no. ' + str(start + 1))
     return start
@@ -45,13 +46,13 @@ def list_dir(path, file_extension=None):
     if file_extension is not None:
         for file in files:
             if file.endswith(file_extension):
-                if not is_hidden(path + '/' + file):
-                    data.append(path + '/' + file)
+                if not is_hidden(path + file):
+                    data.append(path + file)
         return data
     else:
         for file in files:
-            if not is_hidden(path + '/' + file):
-                data.append(path + '/' + file)
+            if not is_hidden(path + file):
+                data.append(path + file)
         return data
 
 
@@ -111,8 +112,7 @@ if __name__ == '__main__':
     # TODO: Option to link files?
     #  This would safe space if the user works on the same machine the image stack is located on
 
-    # TODO: Option to supply random value to recreate a specific run?
-    #  Then we would have to check, if it is consistent with the step size...
+    # TODO: Option to supply random value seed to recreate a specific run?
 
     # TODO: Option to specify a file pattern? => Would extend the file type filter
 
